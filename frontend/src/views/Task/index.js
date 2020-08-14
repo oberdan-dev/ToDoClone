@@ -14,80 +14,102 @@ import iconClock from '../../assets/clock.png';
 
 function Task() {
 
-//   const [filterActived, setFilterActived] = useState('all');
-  const [type, setType] = useState();
-  const [lateCount, setLateCount] = useState();
+    const [lateCount, setLateCount] = useState();
+    const [id, setId] = useState();
+    const [type, setType] = useState();
+    const [done, setDone] = useState(false);
+    const [title, setTitle] = useState();
+    const [description, setDescription] = useState();
+    const [date, setDate] = useState();
+    const [hour, setHour] = useState();
+    const [macaddress, setMacaddress] = useState('11:11:11:11:11:11');
 
-  async function lateVerify(){
-    await api.get(`/task/filter/late/11:11:11:11:11:11`)
-    .then(response => {
-        setLateCount(response.data.length);
-    })
-  
-  }
 
-  useEffect(() => {
-    lateVerify();
-  }, [])
+    async function lateVerify(){
+        await api.get(`/task/filter/late/11:11:11:11:11:11`)
+        .then(response => {
+            setLateCount(response.data.length);
+        })
+    }
 
-  return (
-    <S.Container>
-      <Header lateCount={lateCount}/>
+    async function save(){
+        await api.post(`/task`, {
+            macaddress,
+            type,
+            title,
+            description,
+            when: `${date}T${hour}:00.000Z`
+        }).then(
+            alert('TAREFA CADASTRADA COM SUCESSO!')
+        )
+    }
 
-      <S.Form>
-          <S.TypeIcons>
-              {
-                TypeIcons.map((icon, index) => (
-                    //if (index <= 0)
-                    index > 0 && 
-                    <button type="button" onClick={() => setType(index)}>
-                        <img src={icon} alt="Tipo da tarefa"
-                        className={type && type != index && 'inactive'}/>
-                    </button>
-                ))
-              }
-          </S.TypeIcons>
+    useEffect(() => {
+        lateVerify();
+    }, [])
 
-          <S.InputDataTask>
-              <span>Título</span>
-              <input type="text" placeholder="Título da tarefa..."/>
-          </S.InputDataTask>
+    return (
+        <S.Container>
+        <Header lateCount={lateCount}/>
 
-          <S.TextArea>
-              <span>Descrição</span>
-              <textarea rows={5} placeholder="Descrição da tarefa..."/>
-          </S.TextArea>
+        <S.Form>
+            <S.TypeIcons>
+                {
+                    TypeIcons.map((icon, index) => (
+                        //if (index <= 0)
+                        index > 0 && 
+                        <button type="button" onClick={() => setType(index)}>
+                            <img src={icon} alt="Tipo da tarefa"
+                            className={type && type != index && 'inactive'}/>
+                        </button>
+                    ))
+                }
+            </S.TypeIcons>
 
-          <S.InputDataTask>
-              <span>Data</span>
-              <input type="date" placeholder="Data da tarefa..."/>
-              <img src={iconCalendar} alt="Calendário"/>
-          </S.InputDataTask>
+            <S.InputDataTask>
+                <span>Título</span>
+                <input type="text" placeholder="Título da tarefa..." 
+                    onChange={event => setTitle(event.target.value)} value={title}/>
+            </S.InputDataTask>
 
-          <S.InputDataTask>
-              <span>Hora</span>
-              <input type="time" placeholder="Hora da tarefa..."/>
-              <img src={iconClock} alt="Relógio"/>
-          </S.InputDataTask>
+            <S.TextArea>
+                <span>Descrição</span>
+                <textarea rows={5} placeholder="Descrição da tarefa..."
+                onChange={event => setDescription(event.target.value)} value={description}/>
+            </S.TextArea>
 
-          <S.Options>
-              <div>
-                <input type="checkbox"/>
+            <S.InputDataTask>
+                <span>Data</span>
+                <input type="date" placeholder="Data da tarefa..."
+                    onChange={event => setDate(event.target.value)} value={date}/>
+                <img src={iconCalendar} alt="Calendário"/>
+            </S.InputDataTask>
+
+            <S.InputDataTask>
+                <span>Hora</span>
+                <input type="time" placeholder="Hora da tarefa..."
+                    onChange={event => setHour(event.target.value)} value={hour}/>
+                <img src={iconClock} alt="Relógio"/>
+            </S.InputDataTask>
+
+            <S.Options>
+                <div>
+                    <input type="checkbox" checked={done} onChange={() => setDone(!done)}/>
                 <span>CONCLUÍDO</span>
-              </div>
-              <button type="button">EXCLUIR</button>
-          </S.Options>
+                </div>
+                <button type="button">EXCLUIR</button>
+            </S.Options>
 
-          <S.Save>
+            <S.Save>
 
-              <button type="button">SALVAR</button>
-          </S.Save>
+                <button type="button" onClick={save}>SALVAR</button>
+            </S.Save>
 
-      </S.Form>
+        </S.Form>
 
-      <Footer/>
-    </S.Container>
-  ) 
-}
+        <Footer/>
+        </S.Container>
+    ) 
+    }
 
 export default Task;
