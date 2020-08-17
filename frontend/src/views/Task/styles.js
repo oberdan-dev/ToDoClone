@@ -9,6 +9,9 @@ export const Container = Styled.div`
 export const Form = Styled.div`
     width: 50%;
     margin-bottom: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
 export const TypeIcons = Styled.div`
@@ -37,7 +40,7 @@ export const TypeIcons = Styled.div`
 `
 
 export const InputDataTask = Styled.div`
-    width: 100%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     margin: 20px 0;
@@ -60,13 +63,13 @@ export const InputDataTask = Styled.div`
         width: 20px;
         height: 20px;
         position: relative;
-        left: 90%;
-        bottom: 30px;
+        left: 92%;
+        bottom: 40px;
     }
 `
 
 export const TextArea = Styled.div`
-    width: 100%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     margin: 20px 0;
@@ -85,7 +88,7 @@ export const TextArea = Styled.div`
     }
 `
 export const Options = Styled.div`
-    width: 100%;
+    width: 50%;
     display: flex;
     justify-content: space-between;
 
@@ -112,9 +115,10 @@ export const Options = Styled.div`
 `
 
 export const Save = Styled.div`
-    width: 100%;
+    width: 50%;
     display: flex;
     margin-top:20px;
+    margin-bottom:70px;
 
     button{
         width: 100%;

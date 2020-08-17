@@ -4,6 +4,7 @@ import * as S from './styles';
 import { format } from 'date-fns';
 
 import api from '../../services/api';
+import isConnected from '../../utils/isConnected';
 
 // NOSSOS COMPONENTES
 import Header from '../../components/Header';
@@ -22,7 +23,6 @@ function Task({ match }) {
     const [description, setDescription] = useState();
     const [date, setDate] = useState();
     const [hour, setHour] = useState();
-    const [macaddress, setMacaddress] = useState('11:11:11:11:11:11');
     const [redirect, setRedirect] = useState(false);
 
     async function loadTaskDetails() {
@@ -52,7 +52,7 @@ function Task({ match }) {
 
         if (match.params.id) {
             await api.put(`/task/${match.params.id}`, {
-                macaddress,
+                macaddress: isConnected,
                 type,
                 title,
                 description,
@@ -63,7 +63,7 @@ function Task({ match }) {
             )
         } else {
             await api.post(`/task`, {
-                macaddress,
+                macaddress: isConnected,
                 type,
                 title,
                 description,
@@ -85,13 +85,15 @@ function Task({ match }) {
     }
 
     useEffect(() => {
+        if (!isConnected)
+            setRedirect(true);
         loadTaskDetails();
-    }, [])
+    }, [loadTaskDetails])
 
     return (
         <S.Container>
             {redirect && <Redirect to="/" />}
-            <Header/>
+            <Header />
 
             <S.Form>
                 <S.TypeIcons>
@@ -134,11 +136,16 @@ function Task({ match }) {
                 </S.InputDataTask>
 
                 <S.Options>
-                    {match.params.id && <div>
-                        <input type="checkbox" checked={done} onChange={() => setDone(!done)} />
-                        <span>CONCLUÍDO</span>
-                    </div>}
-                    {match.params.id && <button type="button" onClick={remove}>EXCLUIR</button>}
+                    {
+                        match.params.id && <div>
+                            <input type="checkbox" checked={done} onChange={() => setDone(!done)} />
+                            <span>CONCLUÍDO</span>
+                        </div>
+                    }
+                    {
+                        match.params.id && <button type="button" onClick={remove}>EXCLUIR</button>
+                    }
+
                 </S.Options>
 
                 <S.Save>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import * as S from './styles';
 
 import api from '../../services/api';
+import isConnected from '../../utils/isConnected'
 
 
 // NOSSOS COMPONENTES
@@ -15,9 +16,10 @@ function Home() {
 
   const [filterActived, setFilterActived] = useState('all');
   const [tasks, setTasks] = useState([]);
+  const [redirect, setRedirect] = useState(false);
 
-  async function loasTasks(){
-    await api.get(`/task/filter/${filterActived}/11:11:11:11:11:11`)
+  async function loadTasks(){
+    await api.get(`/task/filter/${filterActived}/${isConnected}`)
     .then(response => {
         setTasks(response.data);
     })
@@ -29,11 +31,15 @@ function Home() {
 
 
   useEffect(() => {
-    loasTasks();
-  }, [filterActived])
+    loadTasks();
+
+    if(!isConnected)
+      setRedirect(true);
+  }, [filterActived, loadTasks])
 
   return (
     <S.Container>
+      {redirect && <Redirect to="/qrcode" /> }
       <Header clickNotification={Notification}/>
 
       <S.FilterArea>
