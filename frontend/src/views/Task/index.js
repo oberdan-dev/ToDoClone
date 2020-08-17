@@ -15,7 +15,6 @@ import iconClock from '../../assets/clock.png';
 
 function Task({ match }) {
 
-    const [lateCount, setLateCount] = useState();
     const [id, setId] = useState();
     const [type, setType] = useState();
     const [done, setDone] = useState(false);
@@ -25,14 +24,6 @@ function Task({ match }) {
     const [hour, setHour] = useState();
     const [macaddress, setMacaddress] = useState('11:11:11:11:11:11');
     const [redirect, setRedirect] = useState(false);
-
-
-    async function lateVerify() {
-        await api.get(`/task/filter/late/11:11:11:11:11:11`)
-            .then(response => {
-                setLateCount(response.data.length);
-            })
-    }
 
     async function loadTaskDetails() {
         await api.get(`/task/${match.params.id}`)
@@ -48,16 +39,16 @@ function Task({ match }) {
 
     async function save() {
         //Validação dos dados
-        if(!type)
+        if (!type)
             return alert("Campo tipo é obrigatório")
-        else if(!title)
+        else if (!title)
             return alert("Campo título é obrigatório!")
-        else if(!description)
+        else if (!description)
             return alert("Campo descrição é obrigatório!")
-        else if(!date)
+        else if (!date)
             return alert("Campo data é obrigatório!")
-        else if(!hour)
-           return alert("Campo hora é obrigatório!")
+        else if (!hour)
+            return alert("Campo hora é obrigatório!")
 
         if (match.params.id) {
             await api.put(`/task/${match.params.id}`, {
@@ -83,7 +74,7 @@ function Task({ match }) {
         }
     }
 
-    async function remove(){
+    async function remove() {
         const resposta = window.confirm('Deseja realmente remover a tarefa?')
         if (resposta == true)
             await api.delete(`/task/${match.params.id}`)
@@ -94,14 +85,13 @@ function Task({ match }) {
     }
 
     useEffect(() => {
-        lateVerify();
         loadTaskDetails();
     }, [])
 
     return (
         <S.Container>
             {redirect && <Redirect to="/" />}
-            <Header lateCount={lateCount} />
+            <Header/>
 
             <S.Form>
                 <S.TypeIcons>
@@ -144,10 +134,10 @@ function Task({ match }) {
                 </S.InputDataTask>
 
                 <S.Options>
-                    { match.params.id && <div>
+                    {match.params.id && <div>
                         <input type="checkbox" checked={done} onChange={() => setDone(!done)} />
                         <span>CONCLUÍDO</span>
-                    </div> }
+                    </div>}
                     {match.params.id && <button type="button" onClick={remove}>EXCLUIR</button>}
                 </S.Options>
 

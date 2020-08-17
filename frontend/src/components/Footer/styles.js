@@ -6,8 +6,8 @@ export const Container = Styled.div`
     background: #20295F;
     border-top: 5px solid #EE6B26;
 
-    position: relative;
-    bottom: -20px;
+    position: fixed;
+    bottom: 0;
 
     display: flex;
     align-items: center;
