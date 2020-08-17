@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {Link} from 'react-router-dom';
 import * as S from './styles';
 
 import api from '../../services/api';
@@ -69,9 +70,12 @@ function Home() {
 
       <S.Content>
         {
-          tasks.map(t => (
-            <TaskCard type = {t.type} title = {t.title} when = {t.when}/>
-          ))
+
+          tasks.map(task => (
+            <Link to = {`/task/${task._id}`}>
+              <TaskCard type = {task.type} title = {task.title} when = {task.when}/>
+            </Link>
+       ))
         }
       </S.Content>
 
