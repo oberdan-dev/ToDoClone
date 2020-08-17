@@ -5,6 +5,7 @@ export const Container = Styled.div`
     height: 200px;
     /* Criando sombra a partir do site: https://cssmatic.com/box-shadow */
     box-shadow: -3px 1px 13px -2px rgba(0,0,0,0.73);
+    border-radius: 10px;
 
     display: flex;
     align-items: center;
@@ -12,11 +13,12 @@ export const Container = Styled.div`
     flex-direction: column;
 
     margin: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: ${props => props.done ? 0.5 : 1};
 
     &:hover {
         opacity: 0.5;
-        cursor: pointer;
-        transition: all 0.3s easy;
     }
 `
 export const TopCard = Styled.div`
