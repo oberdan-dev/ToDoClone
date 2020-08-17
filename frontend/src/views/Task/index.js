@@ -70,7 +70,9 @@ function Task({ match }) {
                 when: `${date}T${hour}:00.000Z`
             }).then(() =>
                 setRedirect(true)
-            )
+            ).catch(response => {
+                alert(response.data.error)
+            })
         }
     }
 
@@ -79,16 +81,13 @@ function Task({ match }) {
         if (resposta == true)
             await api.delete(`/task/${match.params.id}`)
                 .then(() => setRedirect(true))
-        else
-            alert('OK, vamos manter')
-
     }
 
     useEffect(() => {
         if (!isConnected)
             setRedirect(true);
         loadTaskDetails();
-    }, [loadTaskDetails])
+    }, [])
 
     return (
         <S.Container>
@@ -99,7 +98,6 @@ function Task({ match }) {
                 <S.TypeIcons>
                     {
                         TypeIcons.map((icon, index) => (
-                            //if (index <= 0)
                             index > 0 &&
                             <button type="button" onClick={() => setType(index)}>
                                 <img src={icon} alt="Tipo da tarefa"

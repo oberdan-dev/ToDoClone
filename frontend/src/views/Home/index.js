@@ -35,7 +35,7 @@ function Home() {
 
     if(!isConnected)
       setRedirect(true);
-  }, [filterActived, loadTasks])
+  }, [filterActived])
 
   return (
     <S.Container>
