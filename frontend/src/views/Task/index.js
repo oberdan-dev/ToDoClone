@@ -59,7 +59,6 @@ function Task({ match }) {
         else if(!hour)
            return alert("Campo hora é obrigatório!")
 
-
         if (match.params.id) {
             await api.put(`/task/${match.params.id}`, {
                 macaddress,
@@ -82,6 +81,15 @@ function Task({ match }) {
                 setRedirect(true)
             )
         }
+    }
+
+    async function remove(){
+        const resposta = window.confirm('Deseja realmente remover a tarefa?')
+        if (resposta == true)
+            await api.delete(`/task/${match.params.id}`)
+                .then(() => setRedirect(true))
+        else
+            alert('OK, vamos manter')
 
     }
 
@@ -136,15 +144,14 @@ function Task({ match }) {
                 </S.InputDataTask>
 
                 <S.Options>
-                    <div>
+                    { match.params.id && <div>
                         <input type="checkbox" checked={done} onChange={() => setDone(!done)} />
                         <span>CONCLUÍDO</span>
-                    </div>
-                    <button type="button">EXCLUIR</button>
+                    </div> }
+                    {match.params.id && <button type="button" onClick={remove}>EXCLUIR</button>}
                 </S.Options>
 
                 <S.Save>
-
                     <button type="button" onClick={save}>SALVAR</button>
                 </S.Save>
 
