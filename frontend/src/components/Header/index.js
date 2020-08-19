@@ -47,11 +47,16 @@ function Header({ clickNotification }) {
               < Link to='/task'>NOVA TAREFA</Link>
               <span className="divisor"></span>
               <button type="button" onClick={logout}>SAIR</button>
-              <span className="divisor"></span>
-              < button onClick={clickNotification} id="notification">
-                <img src={bell} alt="Notificação" />
-                <span>{lateCount}</span>
-              </ button>
+              {
+                lateCount > 0 &&
+                <>
+                  <span className="divisor"></span>
+                  < button onClick={clickNotification} id="notification">
+                    <img src={bell} alt="Notificação" />
+                    <span>{lateCount}</span>
+                  </ button>
+                </>
+              }
             </>
         }
       </S.RightSide>
