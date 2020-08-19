@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 13,
         bottom: 13
-    },
+    }
 
 });
 
