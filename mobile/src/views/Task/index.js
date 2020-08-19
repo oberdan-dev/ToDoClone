@@ -10,18 +10,20 @@ import {
     Switch
 } from 'react-native'
 
+import styles from './styles';
+
 // COMPONENTES
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import styles from './styles';
 import typeIcons from '../../utils/typeIcons';
+import DateTimeInput from '../../components/DataTimeInput';
 
-export default function Task() {
+export default function Task({ navigation }) {
     const [done, setDone] = useState(false);
 
     return (
         <KeyboardAvoidingView style={styles.container}>
-            <Header showBack={true} />
+            <Header showBack={true} navigation={ navigation }/>
             <ScrollView style={{ width: '100%' }}>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{ marginVertical: 10 }}>
                     {
@@ -38,7 +40,7 @@ export default function Task() {
                 <TextInput
                     style={styles.input}
                     maxLength={30}
-                    placeHolder="Lembre-se de fazer..."
+                    placeholder={'Lembre-se de fazer...'}
                 />
 
                 <Text style={styles.label}>Detalhes</Text>
@@ -46,8 +48,11 @@ export default function Task() {
                     style={styles.inputArea}
                     maxLength={200}
                     multiline={true}
-                    placeHolder="Detalhes da atividade que tenho que lembrar..."
+                    placeholder={'Detalhes da atividade que tenho que lembrar...'}
                 />
+
+                <DateTimeInput type={'date'} />
+                <DateTimeInput type={'hour'} />
 
                 <View style={styles.inLine}>
                     <View style={styles.inputInLine}>
